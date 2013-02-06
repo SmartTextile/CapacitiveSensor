@@ -34,7 +34,7 @@
 const uint8_t CapacitiveSensorDue::LOOP_TIMING_FACTOR = 310;
 
 // Using floats to deal with large numbers.
-#define TIMEOUT_FORMULA(TIMEOUT) (TIMEOUT * (float) CapacitiveSensorDue::LOOP_TIMING_FACTOR * (float) F_CPU) / 84000000
+#define TIMEOUT_FORMULA(TIMEOUT) (TIMEOUT * (float) CapacitiveSensorDue::LOOP_TIMING_FACTOR)
 
 // Default timeout.
 unsigned long CapacitiveSensorDue::_timeout = TIMEOUT_FORMULA(2000);
