@@ -50,7 +50,7 @@ CapacitiveSensorDue::CapacitiveSensorDue(uint8_t sendPin, uint8_t receivePin)
 	
 	this->_sendPin = sendPin;
 	this->_receivePin = receivePin;
-	this->_leastCheckedTime = ULONG_MAX;
+	this->_leastReadTime = ULONG_MAX;
 	
 	// Initializing send pin...
 	this->_sendBitmask = digitalPinToBitMask(sendPin);
@@ -73,8 +73,8 @@ void CapacitiveSensorDue::setTimeout(unsigned long timeout) {
 	CapacitiveSensorDue::_timeout = TIMEOUT_FORMULA(timeout);
 }
 
-// [Check Capacitance]
-long CapacitiveSensorDue::check(uint8_t samples)
+// [Read Capacitance]
+long CapacitiveSensorDue::read(uint8_t samples)
 {
 	long total = 0;
 	
@@ -89,11 +89,11 @@ long CapacitiveSensorDue::check(uint8_t samples)
 		}
 	}
 	
-	if (total < this->_leastCheckedTime) {
-		this->_leastCheckedTime = total;
+	if (total < this->_leastReadTime) {
+		this->_leastReadTime = total;
 	}
 	
-	return total - this->_leastCheckedTime;
+	return total - this->_leastReadTime;
 }
 
 // [Sense Sample]

@@ -46,12 +46,12 @@
 			/**
 			 * [Set Timeout]
 			 * This method allows you to change the timeout for any single
-			 * capacitance check sample.
+			 * capacitance reading sample.
 			 */
 			static void setTimeout(unsigned long timeout);
 			
 			/**
-			 * [Check Capacitance]
+			 * [Read Capacitance]
 			 * This method requires one parameter, samples, and returns a long
 			 * integer containing the absolute capacitance, in arbitrary units.
 			 * The samples parameter can be used to increase the returned
@@ -62,7 +62,7 @@
 			 * It will return -1 if the capacitance value exceeds the value of
 			 * _timeout.
 			 */
-			long check(uint8_t samples);
+			long read(uint8_t samples);
 		private:
 			/**
 			 * Timeout. (default: 2000)
@@ -106,10 +106,10 @@
 			volatile RwReg *_receiveOutRegister;
 			
 			/**
-			 * The least checked time. This is used to keep the "untouched"
+			 * The least read time. This is used to keep the "untouched"
 			 * value as close as possibile to zero.
 			 */
-			unsigned long _leastCheckedTime;
+			unsigned long _leastReadTime;
 			
 			/**
 			 * [Sense Sample]

@@ -20,9 +20,9 @@ void setup()
 void loop()					
 {
 	long start = millis();
-	long total1 = cs_4_2.check(30);
-	long total2 = cs_4_6.check(30);
-	long total3 = cs_4_8.check(30);
+	long total1 = cs_4_2.read(30);
+	long total2 = cs_4_6.read(30);
+	long total3 = cs_4_8.read(30);
 	
 	Serial.print(millis() - start);	// check on performance in milliseconds
 	Serial.print("\t");				// tab character for debug windown spacing
