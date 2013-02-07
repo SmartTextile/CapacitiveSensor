@@ -50,7 +50,7 @@ CapacitiveSensorDue::CapacitiveSensorDue(uint8_t sendPin, uint8_t receivePin)
 	
 	this->_sendPin = sendPin;
 	this->_receivePin = receivePin;
-	this->_leastReadTime = ULONG_MAX;
+	this->calibrate();
 	
 	// Initializing send pin...
 	this->_sendBitmask = digitalPinToBitMask(sendPin);
@@ -100,6 +100,11 @@ long CapacitiveSensorDue::read(uint8_t samples)
 	}
 	
 	return total - this->_leastReadTime;
+}
+
+// [Calibrate]
+void CapacitiveSensorDue::calibrate() {
+	this->_leastReadTime = ULONG_MAX;
 }
 
 // [Sense Sample]

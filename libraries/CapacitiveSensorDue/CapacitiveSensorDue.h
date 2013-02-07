@@ -80,6 +80,13 @@
 			 * _timeout.
 			 */
 			long read(uint8_t samples);
+			
+			/**
+			 * [Calibrate]
+			 * This method resets the _leastReadTime to the highest value so
+			 * that it will be overwritten on the next reads.
+			 */
+			void calibrate();
 		private:
 			/**
 			 * Timeout. (default: 2000)
