@@ -1,5 +1,5 @@
 /**
- * Capacitive Sensing Library for Arduino Due
+ * Capacitive Sensing Library for 'duino / Wiring
  * Copyright (c) 2008 Paul Bagder  All rights reserved.
  * Version 04 by Paul Stoffregen - Arduino 1.0 compatibility, issue 146 fix
  * Version "Due-compatible" by Marco Lipparini
@@ -30,7 +30,7 @@
 /*
  * Static fields...
  */
-// Value determined empirically by the original author (Paul Stoffregen).
+// Value determined empirically by the original author.
 const uint8_t CapacitiveSensorDue::LOOP_TIMING_FACTOR = 310;
 
 // Using floats to deal with large numbers.
@@ -45,8 +45,8 @@ unsigned long CapacitiveSensorDue::_timeout = TIMEOUT_FORMULA(2000);
 // [Constructor]
 CapacitiveSensorDue::CapacitiveSensorDue(uint8_t sendPin, uint8_t receivePin)
 {
-	Pio *sendPort;
-	Pio *receivePort;
+	PORT_DATA_TYPE sendPort;
+	PORT_DATA_TYPE receivePort;
 	
 	this->_sendPin = sendPin;
 	this->_receivePin = receivePin;
@@ -55,16 +55,22 @@ CapacitiveSensorDue::CapacitiveSensorDue(uint8_t sendPin, uint8_t receivePin)
 	// Initializing send pin...
 	this->_sendBitmask = digitalPinToBitMask(sendPin);
 	sendPort = digitalPinToPort(sendPin);
+	#ifdef IS_AVR
+	this->_sendModeRegister = portModeRegister(sendPort);
+	#endif
 	this->_sendOutRegister = portOutputRegister(sendPort);
 	
 	// Initializing receive pin...
 	this->_receiveBitmask = digitalPinToBitMask(receivePin);
 	receivePort = digitalPinToPort(receivePin);
+	#ifdef IS_AVR
+	this->_receiveModeRegister = portModeRegister(receivePort);
+	#endif
 	this->_receiveInRegister = portInputRegister(receivePort);
 	this->_receiveOutRegister = portOutputRegister(receivePort);
 	
 	noInterrupts();
-	pinMode(sendPin, OUTPUT);
+	SET_SEND_PIN_TO_OUTPUT();
 	interrupts();
 }
 
@@ -103,11 +109,11 @@ int CapacitiveSensorDue::senseSample(long *total)
 	
 	// Set send pin register LOW...
 	*this->_sendOutRegister &= ~this->_sendBitmask;
-	pinMode(this->_receivePin, INPUT);
+	SET_RECEIVE_PIN_TO_INPUT();
 	// Set receive pin register LOW to make sure pullups are off...
 	*this->_receiveOutRegister &= ~this->_receiveBitmask;
-	pinMode(this->_receivePin, OUTPUT); // Receive pin is now LOW AND OUTPUT...
-	pinMode(this->_receivePin, INPUT);
+	SET_RECEIVE_PIN_TO_OUTPUT(); // Receive pin is now LOW AND OUTPUT...
+	SET_RECEIVE_PIN_TO_INPUT();
 	// Set send pin HIGH
 	*this->_sendOutRegister |= this->_sendBitmask;
 	
@@ -132,8 +138,8 @@ int CapacitiveSensorDue::senseSample(long *total)
 	
 	// Set receive pin HIGH (turns on pullup)...
 	*this->_receiveOutRegister |= this->_receiveBitmask;
-	pinMode(this->_receivePin, OUTPUT);
-	pinMode(this->_receivePin, INPUT);
+	SET_RECEIVE_PIN_TO_OUTPUT();
+	SET_RECEIVE_PIN_TO_INPUT();
 	// Turn off pullup...
 	*this->_receiveOutRegister &= ~this->_receiveBitmask;
 	// Set send pin LOW

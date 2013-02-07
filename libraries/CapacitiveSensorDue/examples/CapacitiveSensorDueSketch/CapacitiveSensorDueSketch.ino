@@ -4,8 +4,10 @@
  * CapitiveSense Library Demo Sketch
  * Paul Badger 2008
  * Uses a high value resistor e.g. 10M between send pin and receive pin
- * Resistor effects sensitivity, experiment with values, 50K - 50M. Larger resistor values yield larger sensor values.
- * Receive pin is the sensor pin - try different amounts of foil/metal on this pin
+ * Resistor effects sensitivity, experiment with values, 50K - 50M. Larger
+ * resistor values yield larger sensor values.
+ * Receive pin is the sensor pin - try different amounts of foil/metal on this
+ * pin.
  */
 
 CapacitiveSensorDue cs_4_2 = CapacitiveSensorDue(4,2);	// 10M resistor between pins 4 & 2, pin 2 is sensor pin, add a wire and or foil if desired
@@ -33,5 +35,5 @@ void loop()
 	Serial.print("\t");
 	Serial.println(total3);			// print sensor output 3
 	
-	delay(10);						// arbitrary delay to limit data to serial port 
+	delay(10);						// arbitrary delay to limit data to serial port
 }
