@@ -12,7 +12,7 @@ CapacitiveSensorDue	KEYWORD1
 
 setTimeout	KEYWORD3
 
-check	KEYWORD2
+calibrate	KEYWORD2
 
 ################################################################################
 # Constants (LITERAL)
